@@ -10,6 +10,6 @@ export default (plugin:neovim.NvimPlugin)=>{
   const buf = await nvim.buffer;
     const lines = await buf.lines
     const bufText = linesToString(lines)
-    console.log('buffer text changed :\n'+bufText)
+    nvim.lua(`print('buffer contains ${bufText.length} chars')`)
   },opts)
 }
