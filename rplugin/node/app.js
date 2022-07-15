@@ -22,7 +22,5 @@ module.exports = (plugin) => {
         const bufText = linesToString(lines);
         if (bufText.includes(sampleText))
             print("success");
-        else
-            print('not quite there yet');
     }), opts);
 };
