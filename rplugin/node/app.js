@@ -9,14 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.foo = void 0;
 const linesToString = (lines) => lines.reduce((previous, current) => `${previous}\n${current}`, '');
-exports.default = (plugin) => {
+const foo = (plugin) => {
     const opts = { pattern: '*' };
     const { nvim } = plugin;
     plugin.registerAutocmd('TextChangedI', () => __awaiter(void 0, void 0, void 0, function* () {
         const buf = yield nvim.buffer;
         const lines = yield buf.lines;
         const bufText = linesToString(lines);
-        console.log('buffer text changed :\n' + bufText);
+        nvim.lua(`print('buffer contains ${bufText.length} chars')`);
     }), opts);
 };
+exports.foo = foo;
