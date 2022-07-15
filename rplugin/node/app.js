@@ -8,13 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+const opts = { pattern: '*' };
 const linesToString = (lines) => lines.reduce((previous, current) => `${previous}\n${current}`, '');
 const sampleText = "This is some sample text!";
 module.exports = (plugin) => {
     const print = (text) => {
         plugin.nvim.lua(`print('${text}')`);
     };
-    const opts = { pattern: '*' };
     const { nvim } = plugin;
     plugin.registerAutocmd('TextChanged', () => __awaiter(void 0, void 0, void 0, function* () {
         const buf = yield nvim.buffer;
@@ -22,5 +22,7 @@ module.exports = (plugin) => {
         const bufText = linesToString(lines);
         if (bufText.includes(sampleText))
             print("success");
+        else
+            print('not quite there yet');
     }), opts);
 };
