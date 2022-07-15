@@ -8,17 +8,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.foo = void 0;
 const linesToString = (lines) => lines.reduce((previous, current) => `${previous}\n${current}`, '');
-const foo = (plugin) => {
+const sampleText = "This is some sample text!";
+module.exports = (plugin) => {
+    const print = (text) => {
+        plugin.nvim.lua(`print('${text}')`);
+    };
     const opts = { pattern: '*' };
     const { nvim } = plugin;
-    plugin.registerAutocmd('TextChangedI', () => __awaiter(void 0, void 0, void 0, function* () {
+    plugin.registerAutocmd('TextChanged', () => __awaiter(void 0, void 0, void 0, function* () {
         const buf = yield nvim.buffer;
         const lines = yield buf.lines;
         const bufText = linesToString(lines);
-        nvim.lua(`print('buffer contains ${bufText.length} chars')`);
+        if (bufText.includes(sampleText))
+            print("success");
     }), opts);
 };
-exports.foo = foo;
