@@ -10,6 +10,8 @@ module.exports = plugin => {
   const buf = await nvim.buffer;
     const lines = await buf.lines
     const bufText = linesToString(lines)
+
     if (bufText === sampleText) print("success")
+    else print("not quite there yet")
   },opts)
 }
