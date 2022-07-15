@@ -11,7 +11,7 @@ module.exports = plugin => {
     const lines = await buf.lines
     const bufText = linesToString(lines)
 
-    if (bufText === sampleText) print("success")
+    if (bufText.includes(sampleText)) print("success")
     else print("not quite there yet")
   },opts)
 }
