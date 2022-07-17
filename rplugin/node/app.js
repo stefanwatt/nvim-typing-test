@@ -64,6 +64,14 @@ module.exports = (plugin) => {
         print(statusText(distanceAsPercentage));
     });
     const { nvim } = plugin;
+    plugin.registerCommand('EchoMessage', () => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            yield plugin.nvim.outWrite('Dayman (ah-ah-ah) \n');
+        }
+        catch (err) {
+            console.error(err);
+        }
+    }), { sync: false });
     plugin.registerCommand('TypingTestStart', startTypingTest, { sync: false });
     plugin.registerAutocmd('TextChangedI', () => __awaiter(void 0, void 0, void 0, function* () {
         yield compareBufferTextToTemplate();

@@ -58,6 +58,13 @@ export = (plugin:neovim.NvimPlugin)=>{
   }
 
   const {nvim} = plugin;
+plugin.registerCommand('EchoMessage', async () => {
+      try {
+        await plugin.nvim.outWrite('Dayman (ah-ah-ah) \n');
+      } catch (err) {
+        console.error(err);
+      }
+    }, { sync: false });
   plugin.registerCommand('TypingTestStart', startTypingTest,{sync:false})
   plugin.registerAutocmd('TextChangedI',async()=>{
     await compareBufferTextToTemplate()
