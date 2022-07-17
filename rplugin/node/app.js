@@ -23,55 +23,60 @@ const template = `
 `.trim();
 const stopwatch = new ts_stopwatch_1.Stopwatch();
 module.exports = (plugin) => {
-    const print = (text) => {
-        plugin.nvim.lua(`print('${text}')`);
-    };
-    const startTypingTest = () => __awaiter(void 0, void 0, void 0, function* () {
-        stopwatch.start();
-        let i = 1;
-        setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const print = (text) => {
+            plugin.nvim.lua(`print('${text}')`);
+        };
+        const startTypingTest = () => __awaiter(void 0, void 0, void 0, function* () {
+            stopwatch.start();
+            setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
+                if (!stopwatch.isRunning())
+                    return;
+                const bufText = yield getBufText();
+                const distanceAsPercentage = (0, levenshtein_1.getDistanceAsPercentage)(bufText, template);
+                print(statusText(distanceAsPercentage));
+                print(stopwatch.getTime());
+            }), 1000);
+        });
+        const compareBufferTextToTemplate = () => __awaiter(void 0, void 0, void 0, function* () {
             if (!stopwatch.isRunning())
                 return;
             const bufText = yield getBufText();
             const distanceAsPercentage = (0, levenshtein_1.getDistanceAsPercentage)(bufText, template);
+            if (distanceAsPercentage === 100) {
+                completeTest();
+                return;
+            }
             print(statusText(distanceAsPercentage));
-            print(stopwatch.getTime());
-        }), 1000);
-    });
-    const compareBufferTextToTemplate = () => __awaiter(void 0, void 0, void 0, function* () {
-        if (!stopwatch.isRunning())
-            return;
-        const bufText = yield getBufText();
-        const distanceAsPercentage = (0, levenshtein_1.getDistanceAsPercentage)(bufText, template);
-        if (distanceAsPercentage === 100) {
-            completeTest();
-            return;
-        }
-        print(statusText(distanceAsPercentage));
-    });
-    const { nvim } = plugin;
-    plugin.registerCommand('TypingTestStart', startTypingTest, { sync: false });
-    plugin.registerAutocmd('TextChangedI', compareBufferTextToTemplate, opts);
-    plugin.registerAutocmd('TextChanged', compareBufferTextToTemplate, opts);
-    const getSeconds = () => {
-        return Math.round(stopwatch.getTime() / 1000);
-    };
-    const completeTest = () => {
-        stopwatch.stop();
-        print(`Test completed in ${getSeconds} seconds`);
-    };
-    const statusText = (distanceAsPercentage) => {
-        if (!stopwatch.isRunning())
-            return 'Test not started';
-        else {
-            return `${getSeconds()} s - ${distanceAsPercentage}% similarity`;
-        }
-    };
-    const getBufText = () => __awaiter(void 0, void 0, void 0, function* () {
-        const buf = yield nvim.buffer;
-        const lines = yield buf.lines;
-        const bufText = linesToString(lines);
-        return bufText;
-    });
+        });
+        const { nvim } = plugin;
+        plugin.registerCommand('TypingTestStart', startTypingTest, { sync: false });
+        plugin.registerAutocmd('TextChangedI', compareBufferTextToTemplate, opts);
+        plugin.registerAutocmd('TextChanged', compareBufferTextToTemplate, opts);
+        const getSeconds = () => {
+            return Math.round(stopwatch.getTime() / 1000);
+        };
+        const completeTest = () => {
+            stopwatch.stop();
+            print(`Test completed in ${getSeconds} seconds`);
+        };
+        const statusText = (distanceAsPercentage) => {
+            if (!stopwatch.isRunning())
+                return 'Test not started';
+            else {
+                return `${getSeconds()} s - ${distanceAsPercentage}% similarity`;
+            }
+        };
+        const getBufText = () => __awaiter(void 0, void 0, void 0, function* () {
+            const buf = yield nvim.buffer;
+            const lines = yield buf.lines;
+            const bufText = linesToString(lines);
+            return bufText;
+        });
+    }
+    catch (error) {
+        console.log('there was an error');
+        console.log(error);
+    }
 };
 //# sourceMappingURL=app.js.map

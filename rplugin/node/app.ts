@@ -17,12 +17,13 @@ const template = `
 const stopwatch = new Stopwatch()
 
 export = (plugin:neovim.NvimPlugin)=>{
+  try {
+    
   const print = (text:string|number)=>{
     plugin.nvim.lua(`print('${text}')`)
   }
   const startTypingTest = async ()=>{
     stopwatch.start()
-    let i = 1
     setInterval(async()=>{
       if (!stopwatch.isRunning()) return
       const bufText = await getBufText()
@@ -68,5 +69,9 @@ export = (plugin:neovim.NvimPlugin)=>{
     const lines = await buf.lines
     const bufText = linesToString(lines)
     return bufText
+  }
+  } catch (error) {
+    console.log ('there was an error')
+     console.log(error)   
   }
 }
