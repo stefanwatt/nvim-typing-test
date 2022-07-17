@@ -1,1 +1,1 @@
-{"version":3,"file":"stopwatch.js","sourceRoot":"","sources":["stopwatch.ts"],"names":[],"mappings":";;;AAAA,+CAAyC;AAC5B,QAAA,SAAS,GAAG,IAAI,wBAAS,EAAE,CAAA;AAEjC,MAAM,UAAU,GAAG,GAAS,EAAE;IACnC,OAAO,IAAI,CAAC,KAAK,CAAC,iBAAS,CAAC,OAAO,EAAE,GAAC,IAAI,CAAC,CAAA;AAC7C,CAAC,CAAA;AAFY,QAAA,UAAU,cAEtB"}
+{"version":3,"file":"stopwatch.js","sourceRoot":"","sources":["stopwatch.ts"],"names":[],"mappings":";AAAA,4CAA4C;AAC5C,2CAA2C;;;AAEpC,MAAM,UAAU,GAAG,GAAS,EAAE;IACnC,8CAA8C;IAC9C,OAAO,CAAC,CAAA;AACV,CAAC,CAAA;AAHY,QAAA,UAAU,cAGtB"}
