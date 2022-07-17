@@ -50,6 +50,6 @@ export const startTypingTest = async ()=>{
   stopwatchCycle()
 }
 
-export const quitTypingTest = ()=>{
+export const quitTypingTest = async ()=>{
   print(`Test aborted after ${getSeconds()} seconds`)
 }

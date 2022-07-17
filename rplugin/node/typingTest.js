@@ -59,8 +59,8 @@ const startTypingTest = () => __awaiter(void 0, void 0, void 0, function* () {
     stopwatchCycle();
 });
 exports.startTypingTest = startTypingTest;
-const quitTypingTest = () => {
+const quitTypingTest = () => __awaiter(void 0, void 0, void 0, function* () {
     (0, nvim_1.print)(`Test aborted after ${(0, stopwatch_1.getSeconds)()} seconds`);
-};
+});
 exports.quitTypingTest = quitTypingTest;
 //# sourceMappingURL=typingTest.js.map
