@@ -28,22 +28,38 @@ module.exports = (plugin) => {
     const startTypingTest = () => {
         stopwatch.start();
     };
+    setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
+        const bufText = yield getBufText();
+        const distanceAsPercentage = (0, levenshtein_1.getDistanceAsPercentage)(bufText, template);
+        print(statusText(distanceAsPercentage));
+    }), 1000);
     const completeTest = () => {
         stopwatch.stop();
-        print(stopwatch.shortSummary());
+        print(`Test completed in ${Math.round(stopwatch.getTotalTime() / 1000)} seconds`);
     };
-    const compareBufferTextToTemplate = () => __awaiter(void 0, void 0, void 0, function* () {
+    const statusText = (distanceAsPercentage) => {
         if (!stopwatch.isRunning())
-            return;
+            return 'Test not started';
+        else {
+            return `${stopwatch.shortSummary()} - ${distanceAsPercentage}% similarity`;
+        }
+    };
+    const getBufText = () => __awaiter(void 0, void 0, void 0, function* () {
         const buf = yield nvim.buffer;
         const lines = yield buf.lines;
         const bufText = linesToString(lines);
+        return bufText;
+    });
+    const compareBufferTextToTemplate = () => __awaiter(void 0, void 0, void 0, function* () {
+        if (!stopwatch.isRunning())
+            return;
+        const bufText = yield getBufText();
         const distanceAsPercentage = (0, levenshtein_1.getDistanceAsPercentage)(bufText, template);
         if (distanceAsPercentage === 100) {
             completeTest();
             return;
         }
-        print(`${distanceAsPercentage}% similarity`);
+        print(statusText(distanceAsPercentage));
     });
     const { nvim } = plugin;
     plugin.registerCommand('TypingTestStart', startTypingTest);

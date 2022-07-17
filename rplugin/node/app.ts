@@ -22,22 +22,38 @@ export = (plugin:neovim.NvimPlugin)=>{
   const startTypingTest = ()=>{
     stopwatch.start()
   }
+  setInterval(async()=>{
+    const bufText = await getBufText()
+    const distanceAsPercentage = getDistanceAsPercentage(bufText, template)
+    print(statusText(distanceAsPercentage))
+  },1000)
   const completeTest = ()=>{
     stopwatch.stop()
-    print(stopwatch.shortSummary())
+    print(`Test completed in ${Math.round(stopwatch.getTotalTime()/1000)} seconds`)
 
   }
-  const compareBufferTextToTemplate = async ()=>{
-    if (!stopwatch.isRunning()) return;
+  const statusText = (distanceAsPercentage:number)=> {
+    if (!stopwatch.isRunning())
+      return 'Test not started'
+    else {
+      return `${stopwatch.shortSummary()} - ${distanceAsPercentage}% similarity`
+    }
+  }
+  const getBufText = async ()=>{
     const buf = await nvim.buffer;
     const lines = await buf.lines
     const bufText = linesToString(lines)
+    return bufText
+  }
+  const compareBufferTextToTemplate = async ()=>{
+    if (!stopwatch.isRunning()) return;
+    const bufText = await getBufText()
     const distanceAsPercentage = getDistanceAsPercentage(bufText,template)
     if(distanceAsPercentage === 100) {
       completeTest()
       return
     }
-    print(`${distanceAsPercentage}% similarity`)
+    print(statusText(distanceAsPercentage))
   }
 
   const {nvim} = plugin;
