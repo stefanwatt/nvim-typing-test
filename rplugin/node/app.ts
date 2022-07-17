@@ -23,6 +23,7 @@ export = (plugin:neovim.NvimPlugin)=>{
     stopwatch.start()
   }
   setInterval(async()=>{
+    if (!stopwatch.isRunning()) return
     const bufText = await getBufText()
     const distanceAsPercentage = getDistanceAsPercentage(bufText, template)
     print(statusText(distanceAsPercentage))

@@ -29,6 +29,8 @@ module.exports = (plugin) => {
         stopwatch.start();
     };
     setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
+        if (!stopwatch.isRunning())
+            return;
         const bufText = yield getBufText();
         const distanceAsPercentage = (0, levenshtein_1.getDistanceAsPercentage)(bufText, template);
         print(statusText(distanceAsPercentage));
