@@ -1,7 +1,7 @@
 import * as neovim from 'neovim'
 import { AutocmdOptions } from 'neovim/lib/host/NvimPlugin'
 // import { getDistanceAsPercentage } from './levenshtein';
-import {StopWatch} from 'stopwatch-node'
+// import {StopWatch} from 'stopwatch-node'
 //
 // const opts:AutocmdOptions = {pattern:'*'};
 // const linesToString = (lines:string[]) => (lines.length === 1 ? lines[0] : lines.reduce((previous, current) => `${previous}\n${current}`, '')).trim();
@@ -13,20 +13,22 @@ import {StopWatch} from 'stopwatch-node'
 //     print(\`\${distanceAsPercentage(bufText,template)}% similarity\`)
 //   }
 // `.trim()
-const stopwatch = new StopWatch()
+// const stopwatch = new StopWatch()
 //
 export = (plugin:neovim.NvimPlugin)=>{
   const print = (text:string|number)=>{
     plugin.nvim.lua(`print('${text}')`)
   }
   const startTypingTest = async ()=>{
-    stopwatch.start()
+    // stopwatch.start()
+    let i = 1
     setInterval(async()=>{
-      if (!stopwatch.isRunning()) return
+      // if (!stopwatch.isRunning()) return
       // const bufText = await getBufText()
       // const distanceAsPercentage = getDistanceAsPercentage(bufText, template)
       // print(statusText(distanceAsPercentage))
-      print(stopwatch.shortSummary())
+      // print(stopwatch.shortSummary())
+      print(i++ +"seconds elapsed")
     },1000)
   }
   //

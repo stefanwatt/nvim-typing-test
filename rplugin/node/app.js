@@ -8,33 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-// import { getDistanceAsPercentage } from './levenshtein';
-const stopwatch_node_1 = require("stopwatch-node");
-//
-// const opts:AutocmdOptions = {pattern:'*'};
-// const linesToString = (lines:string[]) => (lines.length === 1 ? lines[0] : lines.reduce((previous, current) => `${previous}\n${current}`, '')).trim();
-// const template = `
-//   const compareBufferTextToTemplate = async ()=>{
-//     const buf = await nvim.buffer;
-//     const lines = await buf.lines
-//     const bufText = linesToString(lines)
-//     print(\`\${distanceAsPercentage(bufText,template)}% similarity\`)
-//   }
-// `.trim()
-const stopwatch = new stopwatch_node_1.StopWatch();
 module.exports = (plugin) => {
     const print = (text) => {
         plugin.nvim.lua(`print('${text}')`);
     };
     const startTypingTest = () => __awaiter(void 0, void 0, void 0, function* () {
-        stopwatch.start();
+        // stopwatch.start()
+        let i = 1;
         setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
-            if (!stopwatch.isRunning())
-                return;
+            // if (!stopwatch.isRunning()) return
             // const bufText = await getBufText()
             // const distanceAsPercentage = getDistanceAsPercentage(bufText, template)
             // print(statusText(distanceAsPercentage))
-            print(stopwatch.shortSummary());
+            // print(stopwatch.shortSummary())
+            print(i++ + "seconds elapsed");
         }), 1000);
     });
     //
