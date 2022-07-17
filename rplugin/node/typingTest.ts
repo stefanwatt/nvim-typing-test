@@ -52,4 +52,6 @@ export const startTypingTest = async ()=>{
 
 export const quitTypingTest = async ()=>{
   print(`Test aborted after ${getSeconds()} seconds`)
+  stopwatch.stop()
+  stopwatch.reset()
 }
