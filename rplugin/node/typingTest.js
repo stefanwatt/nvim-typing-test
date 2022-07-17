@@ -14,18 +14,17 @@ const stopwatch_1 = require("./stopwatch");
 const nvim_1 = require("./nvim");
 const levenshtein_1 = require("./levenshtein");
 const template = `
-  const compareBufferTextToTemplate = async ()=>{
-    const buf = await nvim.buffer;
-    const lines = await buf.lines
-    const bufText = linesToString(lines)
-    print(\`\${distanceAsPercentage(bufText,template)}% similarity\`)
-  }
-`.trim();
+const compareBufferTextToTemplate = async ()=>{
+  const buf = await nvim.buffer;
+  const lines = await buf.lines
+  const bufText = linesToString(lines)
+  print(\`\${distanceAsPercentage(bufText,template)}% similarity\`)
+}`.trim();
 const statusText = (distanceAsPercentage) => {
     if (!stopwatch_1.stopwatch.isRunning())
         return 'Test not started';
     else {
-        return `${(0, stopwatch_1.getSeconds)()} s - ${distanceAsPercentage}% similarity`;
+        return `${(0, stopwatch_1.getSeconds)()} s elapsed- ${distanceAsPercentage}% similarity`;
     }
 };
 const startTypingTest = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -48,12 +47,15 @@ const compareBufferTextToTemplate = () => __awaiter(void 0, void 0, void 0, func
         (0, exports.completeTest)();
         return;
     }
-    (0, nvim_1.print)(statusText(distanceAsPercentage));
+    else {
+        (0, nvim_1.print)(statusText(distanceAsPercentage));
+    }
 });
 exports.compareBufferTextToTemplate = compareBufferTextToTemplate;
 const completeTest = () => {
     stopwatch_1.stopwatch.stop();
     (0, nvim_1.print)(`Test completed in ${stopwatch_1.getSeconds} seconds`);
+    stopwatch_1.stopwatch.reset();
 };
 exports.completeTest = completeTest;
 //# sourceMappingURL=typingTest.js.map

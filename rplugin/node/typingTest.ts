@@ -3,19 +3,18 @@ import {print, getBufText} from './nvim';
 import { getDistanceAsPercentage } from './levenshtein';
 
 const template = `
-  const compareBufferTextToTemplate = async ()=>{
-    const buf = await nvim.buffer;
-    const lines = await buf.lines
-    const bufText = linesToString(lines)
-    print(\`\${distanceAsPercentage(bufText,template)}% similarity\`)
-  }
-`.trim()
+const compareBufferTextToTemplate = async ()=>{
+  const buf = await nvim.buffer;
+  const lines = await buf.lines
+  const bufText = linesToString(lines)
+  print(\`\${distanceAsPercentage(bufText,template)}% similarity\`)
+}`.trim()
 
 const statusText = (distanceAsPercentage:number)=> {
   if (!stopwatch.isRunning())
     return 'Test not started'
   else {
-    return `${getSeconds()} s - ${distanceAsPercentage}% similarity`
+    return `${getSeconds()} s elapsed- ${distanceAsPercentage}% similarity`
   }
 }
 
@@ -36,12 +35,14 @@ export const compareBufferTextToTemplate = async ()=>{
   if(distanceAsPercentage === 100) {
     completeTest()
     return
+  }else{
+    print(statusText(distanceAsPercentage))
   }
-  print(statusText(distanceAsPercentage))
 }
 
 export const completeTest = ()=>{
   stopwatch.stop()
   print(`Test completed in ${getSeconds} seconds`)
+  stopwatch.reset()
 }
 
