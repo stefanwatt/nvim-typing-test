@@ -18,14 +18,10 @@ const statusText = (distanceAsPercentage:number)=> {
   }
 }
 
-export const startTypingTest = async ()=>{
-  stopwatch.start()
-  setInterval(async()=>{
-    if (!stopwatch.isRunning()) return
-    const bufText = await getBufText()
-    const distanceAsPercentage = getDistanceAsPercentage(bufText, template)
-    print(statusText(distanceAsPercentage))
-  },1000)
+const completeTest = ()=>{
+  stopwatch.stop()
+  print(`Test completed in ${getSeconds} seconds`)
+  stopwatch.reset()
 }
 
 export const compareBufferTextToTemplate = async ()=>{
@@ -40,9 +36,15 @@ export const compareBufferTextToTemplate = async ()=>{
   }
 }
 
-export const completeTest = ()=>{
-  stopwatch.stop()
-  print(`Test completed in ${getSeconds} seconds`)
-  stopwatch.reset()
+export const startTypingTest = async ()=>{
+  stopwatch.start()
+  stopwatchCycle()
 }
-
+const stopwatchCycle = ()=>{
+  setTimeout(async()=>{
+    await compareBufferTextToTemplate()
+    if(stopwatch.isRunning()){
+      stopwatchCycle()
+    }
+  },1000)
+}

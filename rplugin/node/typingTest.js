@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.completeTest = exports.compareBufferTextToTemplate = exports.startTypingTest = void 0;
+exports.startTypingTest = exports.compareBufferTextToTemplate = void 0;
 const stopwatch_1 = require("./stopwatch");
 const nvim_1 = require("./nvim");
 const levenshtein_1 = require("./levenshtein");
@@ -27,24 +27,18 @@ const statusText = (distanceAsPercentage) => {
         return `${(0, stopwatch_1.getSeconds)()} s elapsed- ${distanceAsPercentage}% similarity`;
     }
 };
-const startTypingTest = () => __awaiter(void 0, void 0, void 0, function* () {
-    stopwatch_1.stopwatch.start();
-    setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
-        if (!stopwatch_1.stopwatch.isRunning())
-            return;
-        const bufText = yield (0, nvim_1.getBufText)();
-        const distanceAsPercentage = (0, levenshtein_1.getDistanceAsPercentage)(bufText, template);
-        (0, nvim_1.print)(statusText(distanceAsPercentage));
-    }), 1000);
-});
-exports.startTypingTest = startTypingTest;
+const completeTest = () => {
+    stopwatch_1.stopwatch.stop();
+    (0, nvim_1.print)(`Test completed in ${stopwatch_1.getSeconds} seconds`);
+    stopwatch_1.stopwatch.reset();
+};
 const compareBufferTextToTemplate = () => __awaiter(void 0, void 0, void 0, function* () {
     if (!stopwatch_1.stopwatch.isRunning())
         return;
     const bufText = yield (0, nvim_1.getBufText)();
     const distanceAsPercentage = (0, levenshtein_1.getDistanceAsPercentage)(bufText, template);
     if (distanceAsPercentage === 100) {
-        (0, exports.completeTest)();
+        completeTest();
         return;
     }
     else {
@@ -52,10 +46,17 @@ const compareBufferTextToTemplate = () => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.compareBufferTextToTemplate = compareBufferTextToTemplate;
-const completeTest = () => {
-    stopwatch_1.stopwatch.stop();
-    (0, nvim_1.print)(`Test completed in ${stopwatch_1.getSeconds} seconds`);
-    stopwatch_1.stopwatch.reset();
+const startTypingTest = () => __awaiter(void 0, void 0, void 0, function* () {
+    stopwatch_1.stopwatch.start();
+    stopwatchCycle();
+});
+exports.startTypingTest = startTypingTest;
+const stopwatchCycle = () => {
+    setTimeout(() => __awaiter(void 0, void 0, void 0, function* () {
+        yield (0, exports.compareBufferTextToTemplate)();
+        if (stopwatch_1.stopwatch.isRunning()) {
+            stopwatchCycle();
+        }
+    }), 1000);
 };
-exports.completeTest = completeTest;
 //# sourceMappingURL=typingTest.js.map

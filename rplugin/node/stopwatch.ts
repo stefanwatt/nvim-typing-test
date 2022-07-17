@@ -1,4 +1,3 @@
-// import { Stopwatch } from 'ts-stopwatch';
 export class Stopwatch {
     private startSystemTime: number | undefined;
 

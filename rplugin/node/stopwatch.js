@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.stopwatch = exports.getSeconds = exports.Stopwatch = void 0;
-// import { Stopwatch } from 'ts-stopwatch';
 class Stopwatch {
     /**
      * Creates a new Stopwatch instance.
