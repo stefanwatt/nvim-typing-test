@@ -31,7 +31,22 @@ export = (plugin:neovim.NvimPlugin)=>{
       print(stopwatch.getTime())
     },1000)
   }
-  //
+  const compareBufferTextToTemplate = async ()=>{
+    if (!stopwatch.isRunning()) return;
+    const bufText = await getBufText()
+    const distanceAsPercentage = getDistanceAsPercentage(bufText,template)
+    if(distanceAsPercentage === 100) {
+      completeTest()
+      return
+    }
+    print(statusText(distanceAsPercentage))
+  }
+
+  const {nvim} = plugin;
+  plugin.registerCommand('TypingTestStart',startTypingTest,{sync:false})
+  plugin.registerAutocmd('TextChangedI',compareBufferTextToTemplate,opts)
+  plugin.registerAutocmd('TextChanged',compareBufferTextToTemplate,opts)
+
   const getSeconds = ():number=>{
     return Math.round(stopwatch.getTime()/1000)
   }
@@ -54,20 +69,4 @@ export = (plugin:neovim.NvimPlugin)=>{
     const bufText = linesToString(lines)
     return bufText
   }
-
-  const compareBufferTextToTemplate = async ()=>{
-    if (!stopwatch.isRunning()) return;
-    const bufText = await getBufText()
-    const distanceAsPercentage = getDistanceAsPercentage(bufText,template)
-    if(distanceAsPercentage === 100) {
-      completeTest()
-      return
-    }
-    print(statusText(distanceAsPercentage))
-  }
-
-  const {nvim} = plugin;
-  plugin.registerCommand('TypingTestStart',startTypingTest,{sync:false})
-  plugin.registerAutocmd('TextChangedI',compareBufferTextToTemplate,opts)
-  plugin.registerAutocmd('TextChanged',compareBufferTextToTemplate,opts)
 }

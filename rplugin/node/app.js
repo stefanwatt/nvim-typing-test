@@ -38,7 +38,21 @@ module.exports = (plugin) => {
             print(stopwatch.getTime());
         }), 1000);
     });
-    //
+    const compareBufferTextToTemplate = () => __awaiter(void 0, void 0, void 0, function* () {
+        if (!stopwatch.isRunning())
+            return;
+        const bufText = yield getBufText();
+        const distanceAsPercentage = (0, levenshtein_1.getDistanceAsPercentage)(bufText, template);
+        if (distanceAsPercentage === 100) {
+            completeTest();
+            return;
+        }
+        print(statusText(distanceAsPercentage));
+    });
+    const { nvim } = plugin;
+    plugin.registerCommand('TypingTestStart', startTypingTest, { sync: false });
+    plugin.registerAutocmd('TextChangedI', compareBufferTextToTemplate, opts);
+    plugin.registerAutocmd('TextChanged', compareBufferTextToTemplate, opts);
     const getSeconds = () => {
         return Math.round(stopwatch.getTime() / 1000);
     };
@@ -59,20 +73,5 @@ module.exports = (plugin) => {
         const bufText = linesToString(lines);
         return bufText;
     });
-    const compareBufferTextToTemplate = () => __awaiter(void 0, void 0, void 0, function* () {
-        if (!stopwatch.isRunning())
-            return;
-        const bufText = yield getBufText();
-        const distanceAsPercentage = (0, levenshtein_1.getDistanceAsPercentage)(bufText, template);
-        if (distanceAsPercentage === 100) {
-            completeTest();
-            return;
-        }
-        print(statusText(distanceAsPercentage));
-    });
-    const { nvim } = plugin;
-    plugin.registerCommand('TypingTestStart', startTypingTest, { sync: false });
-    plugin.registerAutocmd('TextChangedI', compareBufferTextToTemplate, opts);
-    plugin.registerAutocmd('TextChanged', compareBufferTextToTemplate, opts);
 };
 //# sourceMappingURL=app.js.map
