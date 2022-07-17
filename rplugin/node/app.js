@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const levenshtein_1 = require("./levenshtein");
+const stopwatch_node_1 = require("stopwatch-node");
 const opts = { pattern: '*' };
 const linesToString = (lines) => (lines.length === 1 ? lines[0] : lines.reduce((previous, current) => `${previous}\n${current}`, '')).trim();
 const template = `
@@ -19,17 +20,33 @@ const template = `
     print(\`\${distanceAsPercentage(bufText,template)}% similarity\`)
   }
 `.trim();
+const stopwatch = new stopwatch_node_1.StopWatch();
 module.exports = (plugin) => {
     const print = (text) => {
         plugin.nvim.lua(`print('${text}')`);
     };
+    const startTypingTest = () => {
+        stopwatch.start();
+    };
+    const completeTest = () => {
+        stopwatch.stop();
+        print(stopwatch.shortSummary());
+    };
     const compareBufferTextToTemplate = () => __awaiter(void 0, void 0, void 0, function* () {
+        if (!stopwatch.isRunning())
+            return;
         const buf = yield nvim.buffer;
         const lines = yield buf.lines;
         const bufText = linesToString(lines);
-        print(`${(0, levenshtein_1.distanceAsPercentage)(bufText, template)}% similarity`);
+        const distanceAsPercentage = (0, levenshtein_1.getDistanceAsPercentage)(bufText, template);
+        if (distanceAsPercentage === 100) {
+            completeTest();
+            return;
+        }
+        print(`${distanceAsPercentage}% similarity`);
     });
     const { nvim } = plugin;
+    plugin.registerCommand('TypingTestStart', startTypingTest);
     plugin.registerAutocmd('TextChangedI', () => __awaiter(void 0, void 0, void 0, function* () {
         yield compareBufferTextToTemplate();
     }), opts);
