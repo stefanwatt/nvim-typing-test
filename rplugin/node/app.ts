@@ -12,7 +12,7 @@ export = (plugin:neovim.NvimPlugin)=>{
   }
   const {nvim} = plugin;
   plugin.registerAutocmd('TextChanged',async()=>{
-  const buf = await nvim.buffer;
+    const buf = await nvim.buffer;
     const lines = await buf.lines
     const bufText = linesToString(lines)
     print(`${distanceAsPercentage(bufText,sampleText)}% similarity`)
