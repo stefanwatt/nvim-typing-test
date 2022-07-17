@@ -366,8 +366,7 @@ export namespace Stopwatch {
     }
 }
 export const getSeconds = ():number=>{
-  // return Math.round(stopwatch.getTime()/1000)
-  return 1
+  return Math.round(stopwatch.getTime()/1000)
 }
 let defaultSystemTimeGetter: Stopwatch.GetTimeFunc = Date.now;
 

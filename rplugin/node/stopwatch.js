@@ -298,8 +298,7 @@ exports.Stopwatch = Stopwatch;
     Stopwatch.setDefaultSystemTimeGetter = setDefaultSystemTimeGetter;
 })(Stopwatch = exports.Stopwatch || (exports.Stopwatch = {}));
 const getSeconds = () => {
-    // return Math.round(stopwatch.getTime()/1000)
-    return 1;
+    return Math.round(exports.stopwatch.getTime() / 1000);
 };
 exports.getSeconds = getSeconds;
 let defaultSystemTimeGetter = Date.now;
