@@ -11,17 +11,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const levenshtein_1 = require("./levenshtein");
 const opts = { pattern: '*' };
 const linesToString = (lines) => lines.length === 1 ? lines[0] : lines.reduce((previous, current) => `${previous}\n${current}`, '');
-const sampleText = "This is some sample text!";
+const template = "This is some sample text!";
 module.exports = (plugin) => {
     const print = (text) => {
         plugin.nvim.lua(`print('${text}')`);
     };
-    const { nvim } = plugin;
-    plugin.registerAutocmd('TextChanged', () => __awaiter(void 0, void 0, void 0, function* () {
+    const compareBufferTextToTemplate = () => __awaiter(void 0, void 0, void 0, function* () {
         const buf = yield nvim.buffer;
         const lines = yield buf.lines;
         const bufText = linesToString(lines);
-        print(`${(0, levenshtein_1.distanceAsPercentage)(bufText, sampleText)}% similarity`);
+        print(`${(0, levenshtein_1.distanceAsPercentage)(bufText, template)}% similarity`);
+    });
+    const { nvim } = plugin;
+    plugin.registerAutocmd('TextChangedI', () => __awaiter(void 0, void 0, void 0, function* () {
+        yield compareBufferTextToTemplate();
+    }), opts);
+    plugin.registerAutocmd('TextChanged', () => __awaiter(void 0, void 0, void 0, function* () {
+        yield compareBufferTextToTemplate();
     }), opts);
 };
 //# sourceMappingURL=app.js.map
