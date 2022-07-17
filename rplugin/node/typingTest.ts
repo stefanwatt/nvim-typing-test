@@ -19,8 +19,8 @@ const statusText = (distanceAsPercentage:number)=> {
 }
 
 const completeTest = ()=>{
-  stopwatch.stop()
   print(`Test completed in ${getSeconds} seconds`)
+  stopwatch.stop()
   stopwatch.reset()
 }
 

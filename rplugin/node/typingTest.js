@@ -28,8 +28,8 @@ const statusText = (distanceAsPercentage) => {
     }
 };
 const completeTest = () => {
-    stopwatch_1.stopwatch.stop();
     (0, nvim_1.print)(`Test completed in ${stopwatch_1.getSeconds} seconds`);
+    stopwatch_1.stopwatch.stop();
     stopwatch_1.stopwatch.reset();
 };
 const compareBufferTextToTemplate = () => __awaiter(void 0, void 0, void 0, function* () {
