@@ -64,7 +64,7 @@ module.exports = (plugin) => {
         print(statusText(distanceAsPercentage));
     });
     const { nvim } = plugin;
-    plugin.registerCommand('TypingTestStart', startTypingTest);
+    plugin.registerCommand('TypingTestStart', startTypingTest, { sync: false });
     plugin.registerAutocmd('TextChangedI', () => __awaiter(void 0, void 0, void 0, function* () {
         yield compareBufferTextToTemplate();
     }), opts);

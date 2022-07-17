@@ -58,7 +58,7 @@ export = (plugin:neovim.NvimPlugin)=>{
   }
 
   const {nvim} = plugin;
-  plugin.registerCommand('TypingTestStart', startTypingTest)
+  plugin.registerCommand('TypingTestStart', startTypingTest,{sync:false})
   plugin.registerAutocmd('TextChangedI',async()=>{
     await compareBufferTextToTemplate()
   },opts)
