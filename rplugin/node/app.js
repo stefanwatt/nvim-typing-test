@@ -11,7 +11,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const levenshtein_1 = require("./levenshtein");
 const opts = { pattern: '*' };
 const linesToString = (lines) => (lines.length === 1 ? lines[0] : lines.reduce((previous, current) => `${previous}\n${current}`, '')).trim();
-const template = "This is some sample text!";
+const template = `
+  const compareBufferTextToTemplate = async ()=>{
+    const buf = await nvim.buffer;
+    const lines = await buf.lines
+    const bufText = linesToString(lines)
+    print(\`\${distanceAsPercentage(bufText,template)}% similarity\`)
+  }
+`.trim();
 module.exports = (plugin) => {
     const print = (text) => {
         plugin.nvim.lua(`print('${text}')`);

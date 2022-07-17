@@ -4,7 +4,14 @@ import { distanceAsPercentage } from './levenshtein';
 
 const opts:AutocmdOptions = {pattern:'*'};
 const linesToString = (lines:string[]) => (lines.length === 1 ? lines[0] : lines.reduce((previous, current) => `${previous}\n${current}`, '')).trim();
-const template = "This is some sample text!"
+const template = `
+  const compareBufferTextToTemplate = async ()=>{
+    const buf = await nvim.buffer;
+    const lines = await buf.lines
+    const bufText = linesToString(lines)
+    print(\`\${distanceAsPercentage(bufText,template)}% similarity\`)
+  }
+`.trim()
 
 export = (plugin:neovim.NvimPlugin)=>{
   const print = (text:string|number)=>{
