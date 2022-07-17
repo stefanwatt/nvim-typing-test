@@ -26,7 +26,6 @@ export const startTypingTest = async ()=>{
     const bufText = await getBufText()
     const distanceAsPercentage = getDistanceAsPercentage(bufText, template)
     print(statusText(distanceAsPercentage))
-    print(stopwatch.getTime())
   },1000)
 }
 

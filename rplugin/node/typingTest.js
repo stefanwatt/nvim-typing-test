@@ -36,7 +36,6 @@ const startTypingTest = () => __awaiter(void 0, void 0, void 0, function* () {
         const bufText = yield (0, nvim_1.getBufText)();
         const distanceAsPercentage = (0, levenshtein_1.getDistanceAsPercentage)(bufText, template);
         (0, nvim_1.print)(statusText(distanceAsPercentage));
-        (0, nvim_1.print)(stopwatch_1.stopwatch.getTime());
     }), 1000);
 });
 exports.startTypingTest = startTypingTest;
