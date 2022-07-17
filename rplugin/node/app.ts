@@ -19,7 +19,7 @@ export = (plugin:neovim.NvimPlugin)=>{
   const print = (text:string|number)=>{
     plugin.nvim.lua(`print('${text}')`)
   }
-  const startTypingTest = ()=>{
+  const startTypingTest = async ()=>{
     stopwatch.start()
   }
   setInterval(async()=>{

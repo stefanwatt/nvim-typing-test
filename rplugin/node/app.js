@@ -25,9 +25,9 @@ module.exports = (plugin) => {
     const print = (text) => {
         plugin.nvim.lua(`print('${text}')`);
     };
-    const startTypingTest = () => {
+    const startTypingTest = () => __awaiter(void 0, void 0, void 0, function* () {
         stopwatch.start();
-    };
+    });
     setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         if (!stopwatch.isRunning())
             return;
