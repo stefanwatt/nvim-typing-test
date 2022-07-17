@@ -27,14 +27,14 @@ module.exports = (plugin) => {
     };
     const startTypingTest = () => __awaiter(void 0, void 0, void 0, function* () {
         stopwatch.start();
+        setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
+            if (!stopwatch.isRunning())
+                return;
+            const bufText = yield getBufText();
+            const distanceAsPercentage = (0, levenshtein_1.getDistanceAsPercentage)(bufText, template);
+            print(statusText(distanceAsPercentage));
+        }), 1000);
     });
-    setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
-        if (!stopwatch.isRunning())
-            return;
-        const bufText = yield getBufText();
-        const distanceAsPercentage = (0, levenshtein_1.getDistanceAsPercentage)(bufText, template);
-        print(statusText(distanceAsPercentage));
-    }), 1000);
     const completeTest = () => {
         stopwatch.stop();
         print(`Test completed in ${Math.round(stopwatch.getTotalTime() / 1000)} seconds`);
@@ -64,20 +64,8 @@ module.exports = (plugin) => {
         print(statusText(distanceAsPercentage));
     });
     const { nvim } = plugin;
-    plugin.registerCommand('EchoMessage', () => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            yield plugin.nvim.outWrite('Dayman (ah-ah-ah) \n');
-        }
-        catch (err) {
-            console.error(err);
-        }
-    }), { sync: false });
     plugin.registerCommand('TypingTestStart', startTypingTest, { sync: false });
-    plugin.registerAutocmd('TextChangedI', () => __awaiter(void 0, void 0, void 0, function* () {
-        yield compareBufferTextToTemplate();
-    }), opts);
-    plugin.registerAutocmd('TextChanged', () => __awaiter(void 0, void 0, void 0, function* () {
-        yield compareBufferTextToTemplate();
-    }), opts);
+    plugin.registerAutocmd('TextChangedI', compareBufferTextToTemplate, opts);
+    plugin.registerAutocmd('TextChanged', compareBufferTextToTemplate, opts);
 };
 //# sourceMappingURL=app.js.map

@@ -21,18 +21,19 @@ export = (plugin:neovim.NvimPlugin)=>{
   }
   const startTypingTest = async ()=>{
     stopwatch.start()
+    setInterval(async()=>{
+      if (!stopwatch.isRunning()) return
+      const bufText = await getBufText()
+      const distanceAsPercentage = getDistanceAsPercentage(bufText, template)
+      print(statusText(distanceAsPercentage))
+    },1000)
   }
-  setInterval(async()=>{
-    if (!stopwatch.isRunning()) return
-    const bufText = await getBufText()
-    const distanceAsPercentage = getDistanceAsPercentage(bufText, template)
-    print(statusText(distanceAsPercentage))
-  },1000)
+
   const completeTest = ()=>{
     stopwatch.stop()
     print(`Test completed in ${Math.round(stopwatch.getTotalTime()/1000)} seconds`)
-
   }
+
   const statusText = (distanceAsPercentage:number)=> {
     if (!stopwatch.isRunning())
       return 'Test not started'
@@ -40,12 +41,14 @@ export = (plugin:neovim.NvimPlugin)=>{
       return `${stopwatch.shortSummary()} - ${distanceAsPercentage}% similarity`
     }
   }
+
   const getBufText = async ()=>{
     const buf = await nvim.buffer;
     const lines = await buf.lines
     const bufText = linesToString(lines)
     return bufText
   }
+
   const compareBufferTextToTemplate = async ()=>{
     if (!stopwatch.isRunning()) return;
     const bufText = await getBufText()
@@ -58,18 +61,7 @@ export = (plugin:neovim.NvimPlugin)=>{
   }
 
   const {nvim} = plugin;
-plugin.registerCommand('EchoMessage', async () => {
-      try {
-        await plugin.nvim.outWrite('Dayman (ah-ah-ah) \n');
-      } catch (err) {
-        console.error(err);
-      }
-    }, { sync: false });
   plugin.registerCommand('TypingTestStart', startTypingTest,{sync:false})
-  plugin.registerAutocmd('TextChangedI',async()=>{
-    await compareBufferTextToTemplate()
-  },opts)
-  plugin.registerAutocmd('TextChanged',async()=>{
-    await compareBufferTextToTemplate()
-  },opts)
+  plugin.registerAutocmd('TextChangedI',compareBufferTextToTemplate,opts)
+  plugin.registerAutocmd('TextChanged',compareBufferTextToTemplate,opts)
 }
