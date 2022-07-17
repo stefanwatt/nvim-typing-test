@@ -8,19 +8,35 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+// import { getDistanceAsPercentage } from './levenshtein';
+const stopwatch_node_1 = require("stopwatch-node");
+//
+// const opts:AutocmdOptions = {pattern:'*'};
+// const linesToString = (lines:string[]) => (lines.length === 1 ? lines[0] : lines.reduce((previous, current) => `${previous}\n${current}`, '')).trim();
+// const template = `
+//   const compareBufferTextToTemplate = async ()=>{
+//     const buf = await nvim.buffer;
+//     const lines = await buf.lines
+//     const bufText = linesToString(lines)
+//     print(\`\${distanceAsPercentage(bufText,template)}% similarity\`)
+//   }
+// `.trim()
+const stopwatch = new stopwatch_node_1.StopWatch();
 module.exports = (plugin) => {
     const print = (text) => {
         plugin.nvim.lua(`print('${text}')`);
     };
-    // const startTypingTest = async ()=>{
-    //   stopwatch.start()
-    //   setInterval(async()=>{
-    //     if (!stopwatch.isRunning()) return
-    //     const bufText = await getBufText()
-    //     const distanceAsPercentage = getDistanceAsPercentage(bufText, template)
-    //     print(statusText(distanceAsPercentage))
-    //   },1000)
-    // }
+    const startTypingTest = () => __awaiter(void 0, void 0, void 0, function* () {
+        stopwatch.start();
+        setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
+            if (!stopwatch.isRunning())
+                return;
+            // const bufText = await getBufText()
+            // const distanceAsPercentage = getDistanceAsPercentage(bufText, template)
+            // print(statusText(distanceAsPercentage))
+            print(stopwatch.shortSummary());
+        }), 1000);
+    });
     //
     // const completeTest = ()=>{
     //   stopwatch.stop()
@@ -54,7 +70,7 @@ module.exports = (plugin) => {
     // }
     //
     const { nvim } = plugin;
-    plugin.registerCommand('TypingTestStart', () => __awaiter(void 0, void 0, void 0, function* () { print('typing test started'); }), { sync: false });
+    plugin.registerCommand('TypingTestStart', startTypingTest, { sync: false });
     // plugin.registerAutocmd('TextChangedI',compareBufferTextToTemplate,opts)
     // plugin.registerAutocmd('TextChanged',compareBufferTextToTemplate,opts)
 };

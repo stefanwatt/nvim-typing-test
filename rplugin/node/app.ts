@@ -1,7 +1,7 @@
 import * as neovim from 'neovim'
 import { AutocmdOptions } from 'neovim/lib/host/NvimPlugin'
 // import { getDistanceAsPercentage } from './levenshtein';
-// import {StopWatch} from 'stopwatch-node'
+import {StopWatch} from 'stopwatch-node'
 //
 // const opts:AutocmdOptions = {pattern:'*'};
 // const linesToString = (lines:string[]) => (lines.length === 1 ? lines[0] : lines.reduce((previous, current) => `${previous}\n${current}`, '')).trim();
@@ -13,21 +13,22 @@ import { AutocmdOptions } from 'neovim/lib/host/NvimPlugin'
 //     print(\`\${distanceAsPercentage(bufText,template)}% similarity\`)
 //   }
 // `.trim()
-// const stopwatch = new StopWatch()
+const stopwatch = new StopWatch()
 //
 export = (plugin:neovim.NvimPlugin)=>{
   const print = (text:string|number)=>{
     plugin.nvim.lua(`print('${text}')`)
   }
-  // const startTypingTest = async ()=>{
-  //   stopwatch.start()
-  //   setInterval(async()=>{
-  //     if (!stopwatch.isRunning()) return
-  //     const bufText = await getBufText()
-  //     const distanceAsPercentage = getDistanceAsPercentage(bufText, template)
-  //     print(statusText(distanceAsPercentage))
-  //   },1000)
-  // }
+  const startTypingTest = async ()=>{
+    stopwatch.start()
+    setInterval(async()=>{
+      if (!stopwatch.isRunning()) return
+      // const bufText = await getBufText()
+      // const distanceAsPercentage = getDistanceAsPercentage(bufText, template)
+      // print(statusText(distanceAsPercentage))
+      print(stopwatch.shortSummary())
+    },1000)
+  }
   //
   // const completeTest = ()=>{
   //   stopwatch.stop()
@@ -61,7 +62,7 @@ export = (plugin:neovim.NvimPlugin)=>{
   // }
   //
   const {nvim} = plugin;
-  plugin.registerCommand('TypingTestStart', async ()=>{ print('typing test started')},{sync:false})
+  plugin.registerCommand('TypingTestStart',startTypingTest,{sync:false})
   // plugin.registerAutocmd('TextChangedI',compareBufferTextToTemplate,opts)
   // plugin.registerAutocmd('TextChanged',compareBufferTextToTemplate,opts)
 }
