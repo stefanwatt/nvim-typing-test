@@ -3,7 +3,7 @@ import { AutocmdOptions } from 'neovim/lib/host/NvimPlugin'
 import { distanceAsPercentage } from './levenshtein';
 
 const opts:AutocmdOptions = {pattern:'*'};
-const linesToString = (lines:string[]) => lines.length===1 ? lines[0] : lines.reduce((previous, current) => `${previous}\n${current}`, '');
+const linesToString = (lines:string[]) => (lines.length === 1 ? lines[0] : lines.reduce((previous, current) => `${previous}\n${current}`, '')).trim();
 const template = "This is some sample text!"
 
 export = (plugin:neovim.NvimPlugin)=>{
