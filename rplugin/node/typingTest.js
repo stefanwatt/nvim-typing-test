@@ -28,7 +28,7 @@ const statusText = (distanceAsPercentage) => {
     }
 };
 const completeTest = () => {
-    (0, nvim_1.print)(`Test completed in ${stopwatch_1.getSeconds} seconds`);
+    (0, nvim_1.print)(`Test completed in ${(0, stopwatch_1.getSeconds)()} seconds`);
     stopwatch_1.stopwatch.stop();
     stopwatch_1.stopwatch.reset();
 };
