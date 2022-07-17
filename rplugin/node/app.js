@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+const levenshtein_1 = require("./levenshtein");
 const opts = { pattern: '*' };
 const linesToString = (lines) => lines.reduce((previous, current) => `${previous}\n${current}`, '');
 const sampleText = "This is some sample text!";
@@ -20,7 +21,7 @@ module.exports = (plugin) => {
         const buf = yield nvim.buffer;
         const lines = yield buf.lines;
         const bufText = linesToString(lines);
-        if (bufText.includes(sampleText))
-            print("success");
+        print(`${(0, levenshtein_1.distanceAsPercentage)(bufText, sampleText)}% similarity`);
     }), opts);
 };
+//# sourceMappingURL=app.js.map
