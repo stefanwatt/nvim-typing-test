@@ -24,6 +24,15 @@ const completeTest = ()=>{
   stopwatch.reset()
 }
 
+const stopwatchCycle = ()=>{
+  setTimeout(async()=>{
+    await compareBufferTextToTemplate()
+    if(stopwatch.isRunning()){
+      stopwatchCycle()
+    }
+  },1000)
+}
+
 export const compareBufferTextToTemplate = async ()=>{
   if (!stopwatch.isRunning()) return;
   const bufText = await getBufText()
@@ -40,11 +49,7 @@ export const startTypingTest = async ()=>{
   stopwatch.start()
   stopwatchCycle()
 }
-const stopwatchCycle = ()=>{
-  setTimeout(async()=>{
-    await compareBufferTextToTemplate()
-    if(stopwatch.isRunning()){
-      stopwatchCycle()
-    }
-  },1000)
+
+export const quitTypingTest = ()=>{
+  print(`Test aborted after ${getSeconds()} seconds`)
 }
