@@ -13,7 +13,7 @@ exports.quitTypingTest = exports.startTypingTest = exports.compareBufferTextToTe
 const stopwatch_1 = require("./stopwatch");
 const nvim_1 = require("./nvim");
 const levenshtein_1 = require("./levenshtein");
-const template = `
+let template = `
 const compareBufferTextToTemplate = async ()=>{
   const buf = await nvim.buffer;
   const lines = await buf.lines
@@ -27,11 +27,11 @@ const statusText = (distanceAsPercentage) => {
         return `${(0, stopwatch_1.getSeconds)()} s elapsed- ${distanceAsPercentage}% similarity`;
     }
 };
-const completeTest = () => {
-    (0, nvim_1.print)(`Test completed in ${(0, stopwatch_1.getSeconds)()} seconds`);
+const completeTest = () => __awaiter(void 0, void 0, void 0, function* () {
+    yield (0, nvim_1.print)(`Test completed in ${(0, stopwatch_1.getSeconds)()} seconds`);
     stopwatch_1.stopwatch.stop();
     stopwatch_1.stopwatch.reset();
-};
+});
 const stopwatchCycle = () => {
     setTimeout(() => __awaiter(void 0, void 0, void 0, function* () {
         yield (0, exports.compareBufferTextToTemplate)();
@@ -46,21 +46,22 @@ const compareBufferTextToTemplate = () => __awaiter(void 0, void 0, void 0, func
     const bufText = yield (0, nvim_1.getBufText)();
     const distanceAsPercentage = (0, levenshtein_1.getDistanceAsPercentage)(bufText, template);
     if (distanceAsPercentage === 100) {
-        completeTest();
+        yield completeTest();
         return;
     }
     else {
-        (0, nvim_1.print)(statusText(distanceAsPercentage));
+        yield (0, nvim_1.print)(statusText(distanceAsPercentage));
     }
 });
 exports.compareBufferTextToTemplate = compareBufferTextToTemplate;
 const startTypingTest = () => __awaiter(void 0, void 0, void 0, function* () {
+    template = yield (0, nvim_1.getBufText)();
     stopwatch_1.stopwatch.start();
     stopwatchCycle();
 });
 exports.startTypingTest = startTypingTest;
 const quitTypingTest = () => __awaiter(void 0, void 0, void 0, function* () {
-    (0, nvim_1.print)(`Test aborted after ${(0, stopwatch_1.getSeconds)()} seconds`);
+    yield (0, nvim_1.print)(`Test aborted after ${(0, stopwatch_1.getSeconds)()} seconds`);
     stopwatch_1.stopwatch.stop();
     stopwatch_1.stopwatch.reset();
 });

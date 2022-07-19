@@ -17,6 +17,7 @@
     "typescript": "^4.7.4"
   },
   "devDependencies": {
-    "@types/fast-levenshtein": "^0.0.2"
+    "@types/fast-levenshtein": "^0.0.2",
+    "prettier": "^2.7.1"
   }
 }
