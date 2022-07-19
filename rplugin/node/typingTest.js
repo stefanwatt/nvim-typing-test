@@ -20,6 +20,8 @@ const compareBufferTextToTemplate = async ()=>{
   const bufText = linesToString(lines)
   print(\`\${distanceAsPercentage(bufText,template)}% similarity\`)
 }`.trim();
+let templateBuf;
+let typingBuf;
 const statusText = (distanceAsPercentage) => {
     if (!stopwatch_1.stopwatch.isRunning())
         return 'Test not started';
@@ -43,7 +45,7 @@ const stopwatchCycle = () => {
 const compareBufferTextToTemplate = () => __awaiter(void 0, void 0, void 0, function* () {
     if (!stopwatch_1.stopwatch.isRunning())
         return;
-    const bufText = yield (0, nvim_1.getBufText)();
+    const bufText = yield (0, nvim_1.getBufText)(typingBuf);
     const distanceAsPercentage = (0, levenshtein_1.getDistanceAsPercentage)(bufText, template);
     if (distanceAsPercentage === 100) {
         yield completeTest();
@@ -56,7 +58,9 @@ const compareBufferTextToTemplate = () => __awaiter(void 0, void 0, void 0, func
 exports.compareBufferTextToTemplate = compareBufferTextToTemplate;
 const startTypingTest = () => __awaiter(void 0, void 0, void 0, function* () {
     const bufText = yield (0, nvim_1.getBufText)();
+    templateBuf = yield (0, nvim_1.getBuf)();
     yield (0, nvim_1.duplicateCurrentBuf)();
+    typingBuf = yield (0, nvim_1.getBuf)();
     template = bufText;
     stopwatch_1.stopwatch.start();
     stopwatchCycle();

@@ -1,6 +1,7 @@
 import * as Path from 'path'
 import { Neovim } from 'neovim'
 import { AutocmdOptions } from 'neovim/lib/host/NvimPlugin'
+import { AsyncBuffer, Buffer } from 'neovim/lib/api/Buffer'
 
 const linesToString = (lines: string[]) =>
   (lines.length === 1
@@ -16,9 +17,10 @@ export const initNvim = (nvimInstance: Neovim) => {
   if (!!nvim) return
   nvim = nvimInstance
 }
+export const getBuf = async (): Promise<AsyncBuffer> => await nvim.buffer
 
-export const getBufText = async (): Promise<string> => {
-  const buf = await nvim.buffer
+export const getBufText = async (inputBuf?: Buffer): Promise<string> => {
+  const buf = inputBuf || (await nvim.buffer)
   const lines = await buf.lines
   const bufText = linesToString(lines)
   return bufText

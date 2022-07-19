@@ -32,7 +32,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.duplicateCurrentBuf = exports.hSplit = exports.print = exports.setBufText = exports.getBufText = exports.initNvim = exports.autoCmdOptions = void 0;
+exports.duplicateCurrentBuf = exports.hSplit = exports.print = exports.setBufText = exports.getBufText = exports.getBuf = exports.initNvim = exports.autoCmdOptions = void 0;
 const Path = __importStar(require("path"));
 const linesToString = (lines) => (lines.length === 1
     ? lines[0]
@@ -45,8 +45,10 @@ const initNvim = (nvimInstance) => {
     nvim = nvimInstance;
 };
 exports.initNvim = initNvim;
-const getBufText = () => __awaiter(void 0, void 0, void 0, function* () {
-    const buf = yield nvim.buffer;
+const getBuf = () => __awaiter(void 0, void 0, void 0, function* () { return yield nvim.buffer; });
+exports.getBuf = getBuf;
+const getBufText = (inputBuf) => __awaiter(void 0, void 0, void 0, function* () {
+    const buf = inputBuf || (yield nvim.buffer);
     const lines = yield buf.lines;
     const bufText = linesToString(lines);
     return bufText;
