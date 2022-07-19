@@ -55,7 +55,9 @@ const compareBufferTextToTemplate = () => __awaiter(void 0, void 0, void 0, func
 });
 exports.compareBufferTextToTemplate = compareBufferTextToTemplate;
 const startTypingTest = () => __awaiter(void 0, void 0, void 0, function* () {
+    const bufText = yield (0, nvim_1.getBufText)();
     yield (0, nvim_1.duplicateCurrentBuf)();
+    template = bufText;
     stopwatch_1.stopwatch.start();
     stopwatchCycle();
 });

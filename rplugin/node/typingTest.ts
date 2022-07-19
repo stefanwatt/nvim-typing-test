@@ -1,5 +1,5 @@
 import { stopwatch, getSeconds } from './stopwatch'
-import { print, getBufText, duplicateCurrentBuf } from './nvim'
+import { print, getBufText, duplicateCurrentBuf, setBufText } from './nvim'
 import { getDistanceAsPercentage } from './levenshtein'
 
 let template = `
@@ -45,7 +45,9 @@ export const compareBufferTextToTemplate = async () => {
 }
 
 export const startTypingTest = async () => {
+  const bufText = await getBufText()
   await duplicateCurrentBuf()
+  template = bufText
   stopwatch.start()
   stopwatchCycle()
 }
