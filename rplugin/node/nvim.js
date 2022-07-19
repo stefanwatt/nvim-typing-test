@@ -76,8 +76,8 @@ const duplicateCurrentBuf = () => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.duplicateCurrentBuf = duplicateCurrentBuf;
 const getBufFilepath = () => __awaiter(void 0, void 0, void 0, function* () {
-    const getFilepathCmd = 'vim.api.nvim_buf_get_name(0)';
-    const filepath = yield nvim.lua(getFilepathCmd);
+    const getFilepathCmd = 'lua vim.api.nvim_buf_get_name(0)';
+    const filepath = yield nvim.commandOutput(getFilepathCmd);
     return filepath.toString();
 });
 //# sourceMappingURL=nvim.js.map

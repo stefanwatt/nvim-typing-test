@@ -47,7 +47,7 @@ export const duplicateCurrentBuf = async () => {
   await setBufText(bufText)
 }
 const getBufFilepath = async (): Promise<string> => {
-  const getFilepathCmd = 'vim.api.nvim_buf_get_name(0)'
-  const filepath = await nvim.lua(getFilepathCmd)
+  const getFilepathCmd = 'lua vim.api.nvim_buf_get_name(0)'
+  const filepath = await nvim.commandOutput(getFilepathCmd)
   return filepath.toString()
 }
