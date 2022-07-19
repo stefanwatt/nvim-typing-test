@@ -53,8 +53,7 @@ const getBufText = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getBufText = getBufText;
 const setBufText = (text) => __awaiter(void 0, void 0, void 0, function* () {
-    const buf = yield nvim.buffer;
-    yield buf.setLines(text);
+    yield nvim.outWrite(text);
 });
 exports.setBufText = setBufText;
 const print = (text) => __awaiter(void 0, void 0, void 0, function* () {

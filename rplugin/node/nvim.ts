@@ -25,8 +25,7 @@ export const getBufText = async (): Promise<string> => {
 }
 
 export const setBufText = async (text: string) => {
-  const buf = await nvim.buffer
-  await buf.setLines(text)
+  await nvim.outWrite(text)
 }
 
 export const print = async (text: string | number) => {
