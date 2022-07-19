@@ -188,7 +188,10 @@ class Stopwatch {
      * calling this method.
      */
     reset() {
-        this.startSystemTime = this.pendingSliceStartStopwatchTime = this.stopSystemTime = undefined;
+        this.startSystemTime =
+            this.pendingSliceStartStopwatchTime =
+                this.stopSystemTime =
+                    undefined;
         this.stopDuration = 0;
         this.completedSlices = [];
     }
@@ -229,7 +232,7 @@ class Stopwatch {
             return Object.freeze({
                 startTime: 0,
                 endTime: 0,
-                duration: 0
+                duration: 0,
             });
         }
         if (endStopwatchTime === undefined) {
@@ -238,7 +241,7 @@ class Stopwatch {
         return Object.freeze({
             startTime: this.pendingSliceStartStopwatchTime,
             endTime: endStopwatchTime,
-            duration: endStopwatchTime - this.pendingSliceStartStopwatchTime
+            duration: endStopwatchTime - this.pendingSliceStartStopwatchTime,
         });
     }
     /**

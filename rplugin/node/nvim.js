@@ -34,7 +34,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.duplicateCurrentBuf = exports.hSplit = exports.print = exports.setBufText = exports.getBufText = exports.initNvim = exports.autoCmdOptions = void 0;
 const Path = __importStar(require("path"));
-const linesToString = (lines) => (lines.length === 1 ? lines[0] : lines.reduce((previous, current) => `${previous}\n${current}`, '')).trim();
+const linesToString = (lines) => (lines.length === 1
+    ? lines[0]
+    : lines.reduce((previous, current) => `${previous}\n${current}`, '')).trim();
 let nvim;
 exports.autoCmdOptions = { pattern: '*' };
 const initNvim = (nvimInstance) => {
