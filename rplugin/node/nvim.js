@@ -76,7 +76,7 @@ const duplicateCurrentBuf = () => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.duplicateCurrentBuf = duplicateCurrentBuf;
 const getBufFilepath = () => __awaiter(void 0, void 0, void 0, function* () {
-    const getFilepathCmd = 'lua vim.api.nvim_buf_get_name(0)';
+    const getFilepathCmd = 'lua print(vim.api.nvim_buf_get_name(0))';
     const filepath = yield nvim.commandOutput(getFilepathCmd);
     return filepath.toString();
 });
