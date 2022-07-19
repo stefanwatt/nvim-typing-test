@@ -71,13 +71,13 @@ const duplicateCurrentBuf = () => __awaiter(void 0, void 0, void 0, function* ()
     const bufFileDir = path.dir;
     const bufFileName = path.name;
     yield (0, exports.hSplit)();
-    yield nvim.lua(`e ${bufFileDir}/typing_test_${bufFileName}`);
+    yield nvim.command(`e ${bufFileDir}/typing_test_${bufFileName}`);
     yield (0, exports.setBufText)(bufText);
 });
 exports.duplicateCurrentBuf = duplicateCurrentBuf;
 const getBufFilepath = () => __awaiter(void 0, void 0, void 0, function* () {
     const getFilepathCmd = 'lua print(vim.api.nvim_buf_get_name(0))';
     const filepath = yield nvim.commandOutput(getFilepathCmd);
-    return filepath.toString();
+    return filepath;
 });
 //# sourceMappingURL=nvim.js.map
