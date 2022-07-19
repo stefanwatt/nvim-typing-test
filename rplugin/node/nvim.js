@@ -65,11 +65,9 @@ const hSplit = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.hSplit = hSplit;
 const duplicateCurrentBuf = () => __awaiter(void 0, void 0, void 0, function* () {
-    const path = Path.parse(yield getBufFilepath());
-    const bufFileDir = path.dir;
-    const bufFileName = path.name;
+    const { dir, name, ext } = Path.parse(yield getBufFilepath());
     yield (0, exports.hSplit)();
-    yield nvim.command(`e ${bufFileDir}/typing_test_${bufFileName}`);
+    yield nvim.command(`e ${dir}/typing_test_${name}.${ext}`);
 });
 exports.duplicateCurrentBuf = duplicateCurrentBuf;
 const getBufFilepath = () => __awaiter(void 0, void 0, void 0, function* () {

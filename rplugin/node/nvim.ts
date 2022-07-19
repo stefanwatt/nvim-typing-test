@@ -37,11 +37,9 @@ export const hSplit = async () => {
 }
 
 export const duplicateCurrentBuf = async () => {
-  const path = Path.parse(await getBufFilepath())
-  const bufFileDir = path.dir
-  const bufFileName = path.name
+  const { dir, name, ext } = Path.parse(await getBufFilepath())
   await hSplit()
-  await nvim.command(`e ${bufFileDir}/typing_test_${bufFileName}`)
+  await nvim.command(`e ${dir}/typing_test_${name}.${ext}`)
 }
 const getBufFilepath = async (): Promise<string> => {
   const getFilepathCmd = 'lua print(vim.api.nvim_buf_get_name(0))'
